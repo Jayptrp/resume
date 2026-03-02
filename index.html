@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pattarapon Kittiviriyakul — Software Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --red: #E8201A;
+    --red-dark: #b01510;
+    --black: #0a0a0a;
+    --off-white: #f5f2ee;
+    --gray: #888;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    background: rgba(10,10,10,0.7);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    color: var(--red);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--off-white); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 4rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    top: 50%;
+    left: -2rem;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(12rem, 22vw, 22rem);
+    color: rgba(232,32,26,0.06);
+    line-height: 0.85;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: drift 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift {
+    from { transform: translateY(-50%) translateX(0); }
+    to { transform: translateY(-52%) translateX(2rem); }
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-name span { color: var(--red); }
+
+  .hero-sub {
+    margin-top: 2rem;
+    max-width: 560px;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #aaa;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-cta {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    background: var(--red);
+    color: white;
+    padding: 0.9rem 2.2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
+
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--off-white); }
+
+  .hero-scroll {
+    position: absolute;
+    right: 4rem;
+    bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  .hero-scroll span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--red), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 7rem 4rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin-left: 1rem;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    font-size: 1.1rem;
+    line-height: 1.85;
+    color: #bbb;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .detail-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .detail-value {
+    font-size: 0.95rem;
+    color: var(--off-white);
+  }
+
+  .detail-value a {
+    color: var(--off-white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .detail-value a:hover { color: var(--red); }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .skill-category {
+    background: var(--black);
+    padding: 2rem;
+    transition: background 0.3s;
+  }
+
+  .skill-category:hover { background: #111; }
+
+  .skill-cat-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid rgba(232,32,26,0.3);
+    color: #ccc;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+
+  .skill-tag:hover {
+    border-color: var(--red);
+    color: var(--off-white);
+    background: rgba(232,32,26,0.1);
+  }
+
+  /* EXPERIENCE */
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .exp-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: transparent;
+    transition: background 0.3s;
+  }
+
+  .exp-item:hover::before { background: var(--red); }
+
+  .exp-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gray);
+    letter-spacing: 0.08em;
+    padding-top: 0.2rem;
+  }
+
+  .exp-type {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(232,32,26,0.4);
+    color: var(--red);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.8rem;
+  }
+
+  .exp-body {}
+
+  .exp-role {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .exp-company {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.2rem;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .exp-bullets li {
+    font-size: 0.9rem;
+    color: #aaa;
+    line-height: 1.65;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .exp-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-size: 0.7rem;
+  }
+
+  .exp-stack {
+    margin-top: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gray);
+    letter-spacing: 0.08em;
+  }
+
+  .exp-stack span { color: var(--off-white); }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .project-card {
+    background: var(--black);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .project-card:hover { background: #0f0f0f; }
+  .project-card:hover::after { transform: scaleX(1); }
+
+  .project-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: rgba(232,32,26,0.15);
+    line-height: 1;
+  }
+
+  .project-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .project-desc {
+    font-size: 0.88rem;
+    color: #999;
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .project-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    padding: 0.2rem 0.55rem;
+    background: rgba(232,32,26,0.1);
+    color: var(--red);
+    letter-spacing: 0.05em;
+  }
+
+  /* EDUCATION */
+  .edu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .edu-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .edu-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gray);
+    letter-spacing: 0.08em;
+    padding-top: 0.25rem;
+  }
+
+  .edu-school {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .edu-degree {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--red);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+  }
+
+  .edu-extra {
+    font-size: 0.85rem;
+    color: #888;
+    line-height: 1.65;
+  }
+
+  /* CONTACT / FOOTER */
+  #contact {
+    padding: 7rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .contact-left {}
+
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .contact-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 6rem);
+    line-height: 0.9;
+    letter-spacing: 0.03em;
+  }
+
+  .contact-links {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: #aaa;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .contact-link:hover { color: var(--off-white); }
+
+  .contact-link-icon {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .contact-link:hover .contact-link-icon {
+    border-color: var(--red);
+    background: rgba(232,32,26,0.1);
+  }
+
+  .contact-right {
+    text-align: right;
+  }
+
+  .contact-available {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    margin-bottom: 0.8rem;
+  }
+
+  .available-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .contact-location {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: #666;
+    letter-spacing: 0.08em;
+  }
+
+  footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: #444;
+    letter-spacing: 0.1em;
+  }
+
+  /* SCROLL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { padding: 0 1.5rem 4rem; }
+    section { padding: 5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .edu-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    #contact { flex-direction: column; gap: 3rem; align-items: flex-start; padding: 5rem 1.5rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PK</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-text">PATTARAPON</div>
+  <div class="hero-tag">— Software Engineer / Available 2026</div>
+  <h1 class="hero-name">PATTARAPON<br><span>KITTIVIRIYAKUL</span></h1>
+  <p class="hero-sub">Aspiring Software Engineer leveraging an Industrial Engineering background to design robust, scalable systems. I view software through the lens of efficiency — optimizing data flow and system reliability just as I would a supply chain.</p>
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary">Get In Touch</a>
+    <a href="https://github.com/Jayptrp" target="_blank" class="btn-ghost">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub / Jayptrp
+    </a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About Me</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm Pattarapon — Jay — a final-year Industrial Engineering student at Chulalongkorn University with a deep passion for software. My engineering mindset shapes how I approach code: systems thinking, efficiency, and eliminating waste at every layer.</p>
+      <p>From automating 192 hours of manual work with Power BI to architecting microservices with Domain-Driven Design, I bring a practical, results-driven approach to every project. Proficient in Python and REST API development, I'm eager to build resilient platform solutions that scale.</p>
+      <p style="color:#666; font-family: 'DM Mono', monospace; font-size:0.75rem; letter-spacing:0.08em;">" Ready to learn fast "</p>
+    </div>
+    <div class="about-details reveal">
+      <div class="detail-item">
+        <span class="detail-label">Location</span>
+        <span class="detail-value">Suanluang, Bangkok, Thailand</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Email</span>
+        <span class="detail-value"><a href="mailto:j_jayjay@hotmail.com">j_jayjay@hotmail.com</a></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Phone</span>
+        <span class="detail-value"><a href="tel:+66855170038">(+66) 85-517-0038</a></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">GitHub</span>
+        <span class="detail-value"><a href="https://github.com/Jayptrp" target="_blank">github.com/Jayptrp</a></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Languages</span>
+        <span class="detail-value">Thai (Native) · English (Fluent)</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Status</span>
+        <span class="detail-value" style="color: #22c55e;">Available — Expected graduation May 2026</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-category">
+      <div class="skill-cat-name">Programming Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">PHP</span>
+        <span class="skill-tag">C#</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-name">Frameworks & Libraries</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Next.js</span>
+        <span class="skill-tag">NestJS</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">Express.js</span>
+        <span class="skill-tag">Prisma</span>
+        <span class="skill-tag">React</span>
+        <span class="skill-tag">Zod</span>
+        <span class="skill-tag">PyQt6</span>
+        <span class="skill-tag">Pandas</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-name">Databases</div>
+      <div class="skill-tags">
+        <span class="skill-tag">PostgreSQL</span>
+        <span class="skill-tag">MySQL</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-name">Tools & Platforms</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">AWS</span>
+        <span class="skill-tag">GitHub</span>
+        <span class="skill-tag">Power BI</span>
+        <span class="skill-tag">Semgrep</span>
+        <span class="skill-tag">DAX</span>
+        <span class="skill-tag">Power Query</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="exp-list">
+
+    <div class="exp-item reveal">
+      <div>
+        <div class="exp-date">Jan 2026 –<br>May 2026</div>
+        <div class="exp-type">Part-time</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">DevSecOps Engineer</div>
+        <div class="exp-company">Skooldio Tech · LEARN Corporation</div>
+        <ul class="exp-bullets">
+          <li>Collaborated with a cross-functional team to develop a centralized web platform integrating services across LEARN Corporation's ecosystem (OnDemand, Ignite, Skooldio).</li>
+          <li>Architected and developed a new user-api service utilizing Domain-Driven Design (DDD) and Microservices Architecture.</li>
+          <li>Remediated critical security vulnerabilities via static analysis with Semgrep and dependency auditing with yarn audit.</li>
+          <li>Modernized legacy codebases by upgrading AWS SDK v2 → v3 for enhanced security and maintainability.</li>
+        </ul>
+        <div class="exp-stack">Stack: <span>NestJS · Prisma · Zod · MySQL · Docker · AWS</span></div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div>
+        <div class="exp-date">Jun 2025 –<br>Jul 2025</div>
+        <div class="exp-type">Internship</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Information Management Officer</div>
+        <div class="exp-company">Kasikorn Contact Center</div>
+        <ul class="exp-bullets">
+          <li>Automated the department's reporting system using Power BI, consolidating over 50 disparate Excel sources.</li>
+          <li>Developed an interactive dashboard using DAX and Power Query.</li>
+          <li>Eliminated human errors and reduced annual workload by 192 hours — a 90% efficiency gain.</li>
+        </ul>
+        <div class="exp-stack">Stack: <span>Power BI · DAX · Power Query · Excel</span></div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div>
+        <div class="exp-date">Dec 2024 –<br>Feb 2025</div>
+        <div class="exp-type">Freelance</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Backend Developer</div>
+        <div class="exp-company">Odds&Ends Festival · Chulalongkorn University</div>
+        <ul class="exp-bullets">
+          <li>Responsible for route handling and integrating REST APIs using Next.js and TypeScript.</li>
+          <li>Managed the PostgreSQL database using Prisma and Zod for data validation.</li>
+          <li>Developed a Line Bot integration by configuring secure webhooks for real-time user interactions.</li>
+        </ul>
+        <div class="exp-stack">Stack: <span>Next.js · TypeScript · PostgreSQL · Prisma · Zod</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-num">01</div>
+      <div class="project-title">POS System</div>
+      <p class="project-desc">A type-safe Point-of-Sale system built with Next.js and TypeScript. Features a normalized relational database in PostgreSQL with Prisma ORM and a debug interface for testing backend logic and database operations.</p>
+      <div class="project-tags">
+        <span class="project-tag">Next.js</span>
+        <span class="project-tag">TypeScript</span>
+        <span class="project-tag">PostgreSQL</span>
+        <span class="project-tag">Prisma</span>
+        <span class="project-tag">Zod</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">02</div>
+      <div class="project-title">Python Excel Data Interpreter</div>
+      <p class="project-desc">A desktop application automating complex business workflows. Implements data visualization with Matplotlib to interpret raw Excel datasets, packaged as a standalone .exe using PyInstaller.</p>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">PyQt6</span>
+        <span class="project-tag">Pandas</span>
+        <span class="project-tag">Matplotlib</span>
+        <span class="project-tag">PyInstaller</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">03</div>
+      <div class="project-title">Issue Reporting Web App</div>
+      <p class="project-desc">A web application for reporting and managing organizational issues. Led the development team, planned project timeline, and designed the MySQL database for data integrity with a PHP backend.</p>
+      <div class="project-tags">
+        <span class="project-tag">PHP</span>
+        <span class="project-tag">MySQL</span>
+        <span class="project-tag">JavaScript</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-list">
+
+    <div class="edu-item reveal">
+      <div class="edu-period">2022 –<br>Expected May 2026</div>
+      <div>
+        <div class="edu-school">Chulalongkorn University</div>
+        <div class="edu-degree">Bachelor of Engineering · Industrial Engineering · GPAX 3.00</div>
+        <p class="edu-extra">Computer Programming (Python) · Engineering Statistics I & II · Application Developing (C#) · Computer and Information Technology · Artificial Intelligence for Engineers (ML, NN) · Introduction to Data Science and Big Data</p>
+      </div>
+    </div>
+
+    <div class="edu-item reveal">
+      <div class="edu-period">2016 – 2022</div>
+      <div>
+        <div class="edu-school">Triam Udom Suksa Pattanakarn School</div>
+        <div class="edu-degree">High School · GPAX 3.51</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <div class="contact-label">06 — Let's Connect</div>
+    <h2 class="contact-headline">READY TO<br><span style="color:var(--red)">WORK</span><br>TOGETHER?</h2>
+    <div class="contact-links">
+      <a href="mailto:j_jayjay@hotmail.com" class="contact-link">
+        <div class="contact-link-icon">✉</div>
+        j_jayjay@hotmail.com
+      </a>
+      <a href="tel:+66855170038" class="contact-link">
+        <div class="contact-link-icon">☎</div>
+        (+66) 85-517-0038
+      </a>
+      <a href="https://github.com/Jayptrp" target="_blank" class="contact-link">
+        <div class="contact-link-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </div>
+        github.com/Jayptrp
+      </a>
+    </div>
+  </div>
+  <div class="contact-right reveal">
+    <div class="contact-available">
+      <div class="available-dot"></div>
+      Available for opportunities
+    </div>
+    <div class="contact-location">📍 Suanluang, Bangkok, TH</div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Pattarapon Kittiviriyakul</p>
+  <p>Built with HTML · CSS · JS</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Active nav
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--off-white)' : '';
+    });
+  });
+</script>
+</body>
+</html>
