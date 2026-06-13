@@ -23,7 +23,7 @@ export default function Desk() {
       {/* Back wall */}
       <mesh position={[0, 2.5, -1.9]} receiveShadow>
         <planeGeometry args={[40, 14]} />
-        <meshStandardMaterial color="#241f28" roughness={1} />
+        <meshStandardMaterial color="#3a3340" roughness={1} />
       </mesh>
 
       {/* Desk top */}

@@ -14,13 +14,13 @@ export default function Lighting() {
 
   useFrame((_, dt) => {
     // Warm fill rises with the lamp.
-    const fillTarget = lampOn ? 0.38 : 0.0
+    const fillTarget = lampOn ? 0.9 : 0.0
     fill.current.intensity = THREE.MathUtils.damp(fill.current.intensity, fillTarget, 3, dt)
-    // Faint cool "moonlight" so the dark room isn't pure black before the lamp.
-    const moonTarget = lampOn ? 0.04 : 0.08
+    // Cool ambient bounce so the room/walls read, not just the desk.
+    const moonTarget = lampOn ? 0.3 : 0.08
     moon.current.intensity = THREE.MathUtils.damp(moon.current.intensity, moonTarget, 3, dt)
-    // Soft fill from the right so the mouse/wrench read against the dark.
-    const rightTarget = lampOn ? 0.32 : 0.0
+    // Soft fill from the right so the mouse/wrench read clearly.
+    const rightTarget = lampOn ? 0.45 : 0.0
     right.current.intensity = THREE.MathUtils.damp(right.current.intensity, rightTarget, 3, dt)
   })
 

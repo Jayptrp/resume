@@ -29,12 +29,12 @@ export default function StickyNote() {
   return (
     <group position={[2.0, 2.5, -1.86]} rotation={[0, 0, -0.04]}>
       <mesh castShadow>
-        <planeGeometry args={[0.62, 0.62]} />
+        <planeGeometry args={[0.42, 0.42]} />
         <meshStandardMaterial map={tex} roughness={0.85} />
       </mesh>
       {/* pin */}
-      <mesh position={[0, 0.26, 0.02]}>
-        <sphereGeometry args={[0.03, 12, 12]} />
+      <mesh position={[0, 0.17, 0.02]}>
+        <sphereGeometry args={[0.022, 12, 12]} />
         <meshStandardMaterial color="#c0392b" roughness={0.3} metalness={0.4} />
       </mesh>
     </group>
