@@ -1,17 +1,10 @@
-import { RoundedBox } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import { Model } from '../components/Model'
 
-// Mouse placeholder, to the right of the laptop.
+const URL = `${import.meta.env.BASE_URL}models/mouse.glb`
+
 export default function Mouse() {
-  return (
-    <group position={[2.4, 0, 0.7]}>
-      <RoundedBox args={[0.42, 0.22, 0.66]} radius={0.1} smoothness={6} position={[0, 0.11, 0]} castShadow receiveShadow>
-        <meshStandardMaterial color="#2b2b30" roughness={0.35} metalness={0.3} />
-      </RoundedBox>
-      {/* scroll wheel groove */}
-      <mesh position={[0, 0.23, -0.18]}>
-        <boxGeometry args={[0.05, 0.02, 0.12]} />
-        <meshStandardMaterial color="#555" roughness={0.4} />
-      </mesh>
-    </group>
-  )
+  return <Model url={URL} targetSize={0.8} position={[2.4, 0, 0.7]} rotation={[0, 0, 0]} />
 }
+
+useGLTF.preload(URL)

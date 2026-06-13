@@ -7,6 +7,7 @@ import Laptop from './Laptop'
 import Mouse from './Mouse'
 import StickyNote from './StickyNote'
 import Notebook from './Notebook'
+import Pencil from './Pencil'
 import Shaker from './Shaker'
 import Wrench from './Wrench'
 
@@ -29,6 +30,7 @@ export default function Scene() {
       <Mouse />
       <StickyNote />
       <Notebook />
+      <Pencil />
       <Shaker />
       <Wrench />
     </group>

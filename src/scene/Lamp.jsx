@@ -1,12 +1,15 @@
 import { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { useCursor } from '@react-three/drei'
+import { useCursor, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import { useStore } from '../state/store'
+import { Model } from '../components/Model'
 
-// Articulated desk lamp (placeholder geometry). Owns the warm key light.
-// Click the shade to toggle. Intensity + bulb glow ramp smoothly so the
-// intro "click on" reads as the light warming up.
+const URL = `${import.meta.env.BASE_URL}models/lamp.glb`
+
+// Real lamp model, but it still owns the warm key light + click-to-toggle.
+// The bulb glow and pointlight are positioned to sit at the lamp's head
+// (tuned against the model in-scene).
 export default function Lamp() {
   const lampOn = useStore((s) => s.lampOn)
   const toggleLamp = useStore((s) => s.toggleLamp)
@@ -17,57 +20,30 @@ export default function Lamp() {
   const bulb = useRef()
 
   useFrame((_, dt) => {
-    const target = lampOn ? 14 : 0
-    light.current.intensity = THREE.MathUtils.damp(light.current.intensity, target, 4, dt)
-    const glow = lampOn ? 3 : 0
+    light.current.intensity = THREE.MathUtils.damp(light.current.intensity, lampOn ? 14 : 0, 4, dt)
     bulb.current.material.emissiveIntensity = THREE.MathUtils.damp(
-      bulb.current.material.emissiveIntensity, glow, 4, dt,
+      bulb.current.material.emissiveIntensity, lampOn ? 3 : 0, 4, dt,
     )
   })
 
-  const metal = <meshStandardMaterial color="#c0392b" roughness={0.35} metalness={0.4} />
-
   return (
     <group position={[-3.4, 0, -0.9]}>
-      {/* base */}
-      <mesh position={[0, 0.06, 0]} castShadow>
-        <cylinderGeometry args={[0.42, 0.46, 0.12, 32]} />
-        {metal}
-      </mesh>
-      {/* stem */}
-      <mesh position={[0, 1.05, 0]} castShadow>
-        <cylinderGeometry args={[0.05, 0.05, 2.0, 16]} />
-        {metal}
-      </mesh>
-      {/* arm reaching toward desk */}
-      <mesh position={[0.55, 1.95, 0.25]} rotation={[0, 0, -1.0]} castShadow>
-        <cylinderGeometry args={[0.05, 0.05, 1.4, 16]} />
-        {metal}
-      </mesh>
-
-      {/* shade — clickable toggle */}
       <group
-        position={[1.05, 1.78, 0.45]}
-        rotation={[0.55, 0, 0.5]}
         onClick={(e) => { e.stopPropagation(); toggleLamp() }}
         onPointerOver={(e) => { e.stopPropagation(); setHovered(true) }}
         onPointerOut={() => setHovered(false)}
       >
-        <mesh castShadow>
-          <coneGeometry args={[0.5, 0.6, 32, 1, true]} />
-          <meshStandardMaterial color="#d94d3a" roughness={0.4} metalness={0.4} side={THREE.DoubleSide} />
-        </mesh>
-        {/* bulb */}
-        <mesh ref={bulb} position={[0, -0.05, 0]}>
-          <sphereGeometry args={[0.16, 16, 16]} />
-          <meshStandardMaterial color="#fff4e0" emissive="#ffd9a0" emissiveIntensity={0} />
-        </mesh>
+        <Model url={URL} targetSize={2.2} />
       </group>
 
-      {/* warm key light at the bulb */}
+      {/* glow + key light at the lamp head (positions tuned to the model) */}
+      <mesh ref={bulb} position={[0.45, 1.5, 0.45]}>
+        <sphereGeometry args={[0.1, 16, 16]} />
+        <meshStandardMaterial color="#fff4e0" emissive="#ffd9a0" emissiveIntensity={0} />
+      </mesh>
       <pointLight
         ref={light}
-        position={[1.05, 1.6, 0.5]}
+        position={[0.45, 1.4, 0.55]}
         intensity={0}
         distance={14}
         decay={2}
@@ -79,3 +55,5 @@ export default function Lamp() {
     </group>
   )
 }
+
+useGLTF.preload(URL)
