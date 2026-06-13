@@ -3,8 +3,8 @@ import { RoundedBox } from '@react-three/drei'
 // Desk slab + legs, a back wall, and a floor. Grounds the scene and
 // catches the lamp's shadow. Placeholder materials for now.
 export default function Desk() {
-  const legX = 4.2
-  const legZ = 1.4
+  const legX = 5.4
+  const legZ = 1.5
   const Leg = ({ x, z }) => (
     <mesh position={[x, -1.1, z]} castShadow receiveShadow>
       <boxGeometry args={[0.22, 1.8, 0.22]} />
@@ -27,7 +27,7 @@ export default function Desk() {
       </mesh>
 
       {/* Desk top */}
-      <RoundedBox args={[9.6, 0.32, 3.6]} radius={0.06} smoothness={4} position={[0, -0.16, 0]} castShadow receiveShadow>
+      <RoundedBox args={[12, 0.32, 3.8]} radius={0.06} smoothness={4} position={[0, -0.16, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#6b4a32" roughness={0.55} />
       </RoundedBox>
 

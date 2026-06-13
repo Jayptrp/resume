@@ -3,7 +3,7 @@ import { RoundedBox } from '@react-three/drei'
 // Mouse placeholder, to the right of the laptop.
 export default function Mouse() {
   return (
-    <group position={[2.0, 0, 0.55]}>
+    <group position={[2.4, 0, 0.7]}>
       <RoundedBox args={[0.42, 0.22, 0.66]} radius={0.1} smoothness={6} position={[0, 0.11, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#2b2b30" roughness={0.35} metalness={0.3} />
       </RoundedBox>

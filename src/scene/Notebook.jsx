@@ -30,7 +30,7 @@ export default function Notebook() {
   }, [])
 
   return (
-    <group position={[-1.55, 0.01, 1.0]} rotation={[0, 0.5, 0]}>
+    <group position={[-2.95, 0.01, 1.15]} rotation={[0, 0.5, 0]}>
       {/* two pages forming a slight V */}
       <mesh position={[-0.62, 0.02, 0]} rotation={[-Math.PI / 2, 0, -0.06]} castShadow receiveShadow>
         <planeGeometry args={[1.2, 1.5]} />

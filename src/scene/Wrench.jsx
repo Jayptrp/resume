@@ -7,7 +7,7 @@ export default function Wrench() {
     <meshStandardMaterial color="#9aa0a6" roughness={0.3} metalness={0.85} />
   )
   return (
-    <group position={[2.95, 0.06, 0.95]} rotation={[0, -0.5, 0]}>
+    <group position={[4.2, 0.06, 0.95]} rotation={[0, -0.5, 0]}>
       {/* handle */}
       <mesh position={[0, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
         <cylinderGeometry args={[0.07, 0.07, 1.6, 16]} />

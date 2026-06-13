@@ -28,7 +28,7 @@ export default function Lamp() {
   const metal = <meshStandardMaterial color="#c0392b" roughness={0.35} metalness={0.4} />
 
   return (
-    <group position={[-2.7, 0, -0.85]}>
+    <group position={[-3.4, 0, -0.9]}>
       {/* base */}
       <mesh position={[0, 0.06, 0]} castShadow>
         <cylinderGeometry args={[0.42, 0.46, 0.12, 32]} />

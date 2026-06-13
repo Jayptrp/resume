@@ -3,7 +3,7 @@ import { RoundedBox } from '@react-three/drei'
 // Whey protein shaker on the far left of the desk.
 export default function Shaker() {
   return (
-    <group position={[-2.95, 0, 0.95]}>
+    <group position={[-4.3, 0, 0.75]}>
       {/* body */}
       <mesh position={[0, 0.55, 0]} castShadow receiveShadow>
         <cylinderGeometry args={[0.34, 0.3, 1.1, 32]} />
