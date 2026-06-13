@@ -8,7 +8,7 @@ export default function App() {
     <Canvas
       shadows
       dpr={[1, 2]}
-      camera={{ position: [0, 4.0, 10.4], fov: 46 }}
+      camera={{ position: [0, 3.0, 8.3], fov: 46 }}
       gl={{ antialias: true }}
     >
       <color attach="background" args={['#050505']} />

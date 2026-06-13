@@ -4,10 +4,10 @@ import * as THREE from 'three'
 // Subtle "living head" camera. The user can't drag/orbit; instead the camera
 // gently leans toward the cursor and always looks at the desk, giving a small
 // parallax sway like a person shifting their head.
-const BASE = new THREE.Vector3(0, 4.0, 10.4)
-const TARGET = new THREE.Vector3(0, 0.6, 0)
-const SWAY_X = 0.9 // horizontal lean (world units)
-const SWAY_Y = 0.45 // vertical lean
+const BASE = new THREE.Vector3(0, 3.0, 8.3)
+const TARGET = new THREE.Vector3(0, 0.5, 0)
+const SWAY_X = 1.9 // horizontal lean (world units)
+const SWAY_Y = 0.85 // vertical lean
 
 export default function CameraRig() {
   const camera = useThree((s) => s.camera)
