@@ -14,8 +14,9 @@ export default function CameraRig() {
 
   useFrame((state, dt) => {
     // state.pointer is normalized to [-1, 1] across the canvas.
-    const targetX = BASE.x + state.pointer.x * SWAY_X
-    const targetY = BASE.y + state.pointer.y * SWAY_Y
+    // Lean away from the cursor so the scene pans toward where you hover.
+    const targetX = BASE.x - state.pointer.x * SWAY_X
+    const targetY = BASE.y - state.pointer.y * SWAY_Y
     camera.position.x = THREE.MathUtils.damp(camera.position.x, targetX, 3.5, dt)
     camera.position.y = THREE.MathUtils.damp(camera.position.y, targetY, 3.5, dt)
     camera.position.z = BASE.z
